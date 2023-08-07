@@ -3,7 +3,7 @@ class FilmesController extends AppController
 {
     public function index()
     {
-        $this->paginate = array('limit' => 10); // Define a quantidade de filmes por página
+        $this->paginate = array('limit' => 9); // Define a quantidade de filmes por página
         $filmes = $this->paginate('Filme');
         $this->set('filmes', $filmes);
     }
@@ -22,7 +22,7 @@ class FilmesController extends AppController
         // Verificar se há categorias disponíveis
         if (empty($categorias)) {
             $this->Flash->error('Não há categorias disponíveis para cadastro de filmes.');
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(array('action' => 'indexCrud'));
         }
 
         if ($this->request->is('post')) {
@@ -40,7 +40,7 @@ class FilmesController extends AppController
 
             if ($this->Filme->save($this->request->data)) {
                 $this->Flash->success('Filme cadastrado com sucesso.');
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(array('action' => 'indexCrud'));
             } else {
                 $this->Flash->error('Erro ao cadastrar o filme.');
             }
@@ -84,7 +84,7 @@ class FilmesController extends AppController
             $this->Filme->id = $id;
             if ($this->Filme->save($this->request->data)) {
                 $this->Flash->success('Filme atualizado com sucesso.');
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(array('action' => 'indexCrud'));
             } else {
                 $this->Flash->error('Erro ao atualizar o filme.');
             }
@@ -130,7 +130,7 @@ class FilmesController extends AppController
             } else {
                 $this->Flash->error('Erro ao excluir o filme.');
             }
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(array('action' => 'indexCrud'));
         } else {
             throw new MethodNotAllowedException();
         }
@@ -138,7 +138,8 @@ class FilmesController extends AppController
     
     public function indexCrud()
     {
-        $filmes = $this->Filme->find('all');
+        $this->paginate = array('limit' => 5); // Define a quantidade de filmes por página
+        $filmes = $this->paginate('Filme'); 
         $this->set('filmes', $filmes);
     }
 }

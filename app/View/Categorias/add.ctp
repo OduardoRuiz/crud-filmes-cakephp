@@ -1,12 +1,12 @@
 <?php $this->layout = 'header'; ?>
 
-<div class="container mt-5">
-    <h2>Adicionar Categoria</h2>
+<div class="container m-3">
+    <h1 class="h4">Adicionar Categoria</h1>
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" name="data[Categoria][nome]" id="nome" class="form-control">
+            <label class="m-3 mb-0" for="nome">Nome</label>
+            <input type="text" name="data[Categoria][nome]" id="nome" class="m-3 form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-sm btn-success m-3">Salvar</button>
     </form>
 </div>

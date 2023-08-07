@@ -1,34 +1,37 @@
 <?php $this->layout = 'header'; ?>
+<?php $this->Paginator->options(array('url' => array('controller' => 'filmes', 'action' => 'index'))); ?>
 
-<h1>Lista de Filmes</h1>
-<a href="<?php echo $this->Html->url(array('controller' => 'filmes', 'action' => 'add')); ?>" class="btn btn-primary">Adicionar Filme</a>
+<h1 class="m-3 h4">Lista de Filmes</h1> 
+<a href="<?php echo $this->Html->url(array('controller' => 'filmes', 'action' => 'add')); ?>" class="btn btn-sm m-4 mb-0 btn-primary">Adicionar Filme</a>
 
 
-<div class="row mt-5">
+<div class="row m-3">
     <?php foreach ($filmes as $filme) : ?>
-        <div class="col-md-3">
-            <div class="card mb-4">
-                <img class="img-fluid" src="<?php echo $this->Html->url('/media/filmes/' . $filme['Filme']['capa']); ?>" alt="Capa do Filme">
+        <div class="col-11 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="card mb-4" style="width: 14rem;">
+                <img class="img-fluid" style="" src="<?php echo $this->Html->url('/media/filmes/' . $filme['Filme']['capa']); ?>" alt="Capa do Filme">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo h($filme['Filme']['titulo']); ?></h5>
-                    <p class="card-text"><?php echo h($filme['Filme']['sinopse']); ?></p>
+                    <p class="card-text" style="max-height: 200px; overflow-y: auto;"><?php echo h($filme['Filme']['sinopse']); ?></p>
                     <p class="card-text"><?php echo h($filme['Categoria']['nome']); ?></p>
-                    <a href="<?php echo $this->Html->url(array('controller' => 'filmes', 'action' => 'view', $filme['Filme']['id'])); ?>" class="btn btn-primary">Detalhes</a>
+                    <a href="<?php echo $this->Html->url(array('controller' => 'filmes', 'action' => 'view', $filme['Filme']['id'])); ?>" class="btn btn-dark">Detalhes</a>
                 </div>
             </div>
         </div>
     <?php endforeach; ?>
 </div>
-<!-- Links de paginação -->
-<div class="row">
-    <div class="col-md-12">
-        <nav aria-label="Page navigation example">
-
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href=""><?= $this->Paginator->prev('« Anterior'); ?></a></li>
-                <li class="page-item"><a class="page-link" href=""><?= $this->Paginator->numbers(); ?></a></li>
-                <li class="page-item"><a class="page-link" href=""><?= $this->Paginator->next('Próximo »'); ?></a></li>
+<?php
+if ($this->Paginator->params()['count'] > 9) {
+?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <li><?= $this->Paginator->prev(__('<<'), array('class' => 'btn btn-sm btn-info')) ?></li>
+                <li class="page-item"> <span style="margin: 5px;"><?= $this->Paginator->numbers(array('class' => '')) ?></span></li>
+                <li><?= $this->Paginator->next(__('>>'), array('class' => 'btn btn-sm btn-info')) ?></li>
             </ul>
-        </nav>
+        </div>
     </div>
-</div>
+<?php
+}
+?>

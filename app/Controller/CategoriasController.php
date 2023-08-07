@@ -1,9 +1,12 @@
 <?php
+App::uses('Filmes', 'Model');
+
 class CategoriasController extends AppController
 {
     public function index()
     {
-        $categorias = $this->Categoria->find('all');
+        $this->paginate = array('limit' => 10);
+        $categorias = $this->paginate('Categoria');
         $this->set('categorias', $categorias);
     }
 
@@ -40,18 +43,29 @@ class CategoriasController extends AppController
         }
         $this->set('categoria', $categoria);
     }
-
     public function delete($id)
-    {
-        if ($this->request->is('delete')) {
+{
+    if ($this->request->is('delete')) {
+        // Verifique se a categoria está sendo usada na model Filmes
+        $this->loadModel('Filmes');
+        $filmesComCategoria = $this->Filmes->find('count', array(
+            'conditions' => array('Filmes.categoria_id' => $id)
+        ));
+
+        if ($filmesComCategoria > 0) {
+            $this->Flash->error('Erro ao excluir a Categoria. A categoria está sendo utilizada em Filmes.');
+        } else {
             if ($this->Categoria->delete($id)) {
                 $this->Flash->success('Categoria excluída com sucesso.');
             } else {
-                $this->Flash->error('Erro ao excluir o Categoria.');
+                $this->Flash->error('Erro ao excluir a Categoria.');
             }
-            $this->redirect(array('action' => 'index'));
-        } else {
-            throw new MethodNotAllowedException();
         }
+
+        $this->redirect(array('action' => 'index'));
+    } else {
+        throw new MethodNotAllowedException();
     }
+}
+
 }
