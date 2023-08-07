@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label class="mt-2 mb-1 d-block" for="capa">Capa</label>
-            <input type="file" name="data[Filme][capa]" id="capa" class="form-control-file">
+            <input type="file" name="data[Filme][capa]" id="capa" class="form-control-file" accept="image/jpeg, image/png">
         </div>
         <div class="form-group">
             <label  class="mt-2 mb-1" for="sinopse">Sinopse</label>
